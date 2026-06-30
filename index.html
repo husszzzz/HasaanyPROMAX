@@ -2,145 +2,505 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>IPA SOON</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasaany Store - متجر التطبيقات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --accent: #0a84ff;
-            --text: #ffffff;
-            --muted: #8b949e;
+            --bg-deep:   #04060f;
+            --bg-card:   #080d1c;
+            --bg-card2:  #0c1225;
+            --blue:      #4f8fff;
+            --blue-glow: #2060d8;
+            --purple:    #7c3aed;
+            --cyan:      #06b6d4;
+            --green:     #22c55e;
+            --gold:      #f59e0b;
+            --text:      #e2e8f0;
+            --dim:       #64748b;
+            --border:    rgba(79,143,255,0.13);
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+        html { scroll-behavior: smooth; }
         body {
-            background-color: var(--bg);
+            background: var(--bg-deep);
             color: var(--text);
-            font-family: -apple-system, system-ui, sans-serif;
-            margin: 0; padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        header { padding: 60px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        header h1 { font-size: 2.8rem; margin: 0; background: linear-gradient(#fff, #8b949e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
-        header p { color: var(--muted); margin-top: 10px; font-size: 1.1rem; }
+        /* ── BG ── */
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(79,143,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79,143,255,0.035) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none; z-index: 0;
+        }
+        .bg-orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
+        .orb-1 { width:650px;height:650px;background:rgba(79,143,255,0.07);top:-220px;right:-220px; }
+        .orb-2 { width:500px;height:500px;background:rgba(124,58,237,0.06);bottom:-160px;left:-160px; }
+        .orb-3 { width:350px;height:350px;background:rgba(6,182,212,0.04);top:45%;left:50%;transform:translateX(-50%); }
 
-        .container { max-width: 600px; margin: auto; padding: 20px; }
-
-        .app-item {
-            background: var(--card);
-            border-radius: 35px;
-            padding: 15px 20px;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
-            opacity: 0; transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* ── WRAPPER ── */
+        .wrapper {
+            position: relative; z-index: 1;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1.75rem 1.25rem 5rem;
+            display: flex; flex-direction: column; align-items: center; gap: 1.75rem;
         }
 
-        .app-item.show { opacity: 1; transform: translateY(0); }
+        /* ── TOP BADGE ── */
+        .top-badge {
+            display: flex; align-items: center; gap: 0.5rem;
+            background: rgba(79,143,255,0.07);
+            border: 1px solid var(--border);
+            border-radius: 50px; padding: 0.4rem 1.1rem;
+            font-size: 0.8rem; color: var(--blue);
+            animation: fadeDown 0.5s ease both;
+        }
+        .dot { width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite; }
 
-        .app-meta { display: flex; align-items: center; }
-        .app-icon { width: 60px; height: 60px; border-radius: 15px; margin-left: 15px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .app-info h3 { margin: 0; font-size: 1.25rem; font-weight: 700; text-align: right; }
+        /* ── HEADER ── */
+        .header {
+            display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+            animation: fadeDown 0.6s 0.1s ease both;
+            width: 100%;
+        }
+        .logo-wrap { position: relative; }
+        .logo-ring {
+            position: absolute; inset: -12px; border-radius: 30px;
+            border: 1.5px solid transparent;
+            background: linear-gradient(135deg,var(--blue),var(--purple),var(--cyan)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            animation: hueRotate 5s linear infinite;
+        }
+        .logo-glow { position:absolute;inset:-8px;border-radius:26px;background:linear-gradient(135deg,rgba(79,143,255,0.2),rgba(124,58,237,0.2));filter:blur(18px); }
+        .logo-img { position:relative;width:96px;height:96px;border-radius:20px;display:block;object-fit:cover; }
+        .logo-tag {
+            position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);
+            background:linear-gradient(135deg,var(--blue),var(--purple));
+            border-radius:20px;padding:2px 10px;font-size:0.6rem;font-weight:700;
+            white-space:nowrap;letter-spacing:0.08em;box-shadow:0 4px 15px rgba(79,143,255,0.4);
+        }
+        .header-text { text-align: center; }
+        .header-text h1 {
+            font-size: 2rem; font-weight: 900; line-height: 1.1;
+            background: linear-gradient(135deg,#fff 25%,var(--blue) 60%,var(--cyan));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            margin-bottom: 0.35rem;
+        }
+        .header-text p { color: var(--dim); font-size: 0.9rem; line-height: 1.5; }
 
-        .install-btn {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: 800;
+        /* ── STATS ── */
+        .stats {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 0.65rem;
+            width: 100%; animation: fadeUp 0.6s 0.2s ease both;
+        }
+        .stat {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 13px; padding: 0.85rem 0.5rem; text-align: center;
+            transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden;
+        }
+        .stat::before { content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(79,143,255,0.05),transparent);pointer-events:none; }
+        .stat:hover { border-color:rgba(79,143,255,0.35);transform:translateY(-2px); }
+        .stat b { display:block;font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+        .stat span { font-size:0.7rem;color:var(--dim);margin-top:2px;display:block; }
+
+        /* ── SECTION TITLE ── */
+        .section-title {
+            width: 100%; display: flex; align-items: center; gap: 0.75rem;
+            animation: fadeUp 0.6s 0.25s ease both;
+        }
+        .section-title h2 { font-size: 1rem; font-weight: 800; color: #fff; white-space: nowrap; }
+        .section-title .line { flex:1;height:1px;background:var(--border); }
+        .count-badge {
+            background: rgba(79,143,255,0.1); border:1px solid var(--border);
+            border-radius: 20px; padding: 2px 10px;
+            font-size: 0.7rem; color: var(--blue); font-weight: 700;
+        }
+
+        /* ── SEARCH ── */
+        .search-wrap {
+            width: 100%; position: relative;
+            animation: fadeUp 0.6s 0.3s ease both;
+        }
+        .search-wrap input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            color: var(--text);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-wrap input::placeholder { color: var(--dim); }
+        .search-wrap input:focus { border-color: rgba(79,143,255,0.4); }
+        .search-icon { position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:var(--dim);font-size:1rem;pointer-events:none; }
+
+        /* ── APPS GRID ── */
+        .apps-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;
+            width: 100%; animation: fadeUp 0.6s 0.35s ease both;
+        }
+
+        /* ── APP CARD ── */
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.1rem;
+            display: flex; flex-direction: column; gap: 0.75rem;
+            position: relative; overflow: hidden;
+            transition: all 0.3s;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            min-width: 105px;
+        }
+        .app-card::before {
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(135deg,rgba(79,143,255,0.04),transparent 60%);
+            pointer-events:none;
+        }
+        .app-card::after {
+            content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+            background:linear-gradient(90deg,var(--blue),var(--purple));
+            transform:scaleX(0);transform-origin:right;transition:transform 0.35s;
+        }
+        .app-card:hover { border-color:rgba(79,143,255,0.32);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.4); }
+        .app-card:hover::after { transform:scaleX(1);transform-origin:left; }
+
+        .app-top { display:flex;align-items:center;gap:0.65rem; }
+        .app-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            object-fit: cover; flex-shrink: 0;
+            border: 1px solid rgba(79,143,255,0.15);
+            background: var(--bg-card2);
+        }
+        .app-icon-placeholder {
+            width:48px;height:48px;border-radius:12px;flex-shrink:0;
+            background:linear-gradient(135deg,rgba(79,143,255,0.15),rgba(124,58,237,0.15));
+            border:1px solid rgba(79,143,255,0.15);
+            display:flex;align-items:center;justify-content:center;
+            font-size:1.4rem;
+        }
+        .app-info { flex:1;min-width:0; }
+        .app-name { font-size:0.82rem;font-weight:800;color:#fff;line-height:1.2;display:block;
+            white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+        .app-bundle { font-size:0.62rem;color:var(--dim);margin-top:2px;display:block;
+            white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+        .app-version {
+            display:inline-block;margin-top:4px;
+            background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);
+            border-radius:6px;padding:1px 6px;font-size:0.58rem;font-weight:700;color:var(--green);
         }
 
-        .install-btn span { position: relative; z-index: 2; }
-
-        .install-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; height: 100%; width: 0%;
-            background: var(--accent);
-            z-index: 1;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .btn-get {
+            display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+            padding: 0.6rem; border-radius: 10px;
+            background: linear-gradient(135deg,var(--blue-glow),var(--purple));
+            color: #fff; font-family:'Tajawal',sans-serif;
+            font-size: 0.82rem; font-weight: 800;
+            text-decoration: none; border: none; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(79,143,255,0.25);
+            transition: all 0.3s; position:relative; overflow:hidden;
         }
+        .btn-get::before {
+            content:'';position:absolute;inset:0;
+            background:linear-gradient(135deg,rgba(255,255,255,0.12),transparent 60%);
+        }
+        .btn-get:hover { transform:translateY(-1px);box-shadow:0 8px 25px rgba(79,143,255,0.4); }
+        .btn-get:active { transform:scale(0.97); }
 
-        .install-btn.loading { color: #fff; pointer-events: none; }
-        .install-btn.loading::after { width: 100%; }
+        /* ── LOADING ── */
+        .loading-wrap {
+            width:100%;display:flex;flex-direction:column;align-items:center;gap:1rem;
+            padding:3rem 0;animation:fadeUp 0.5s ease both;
+        }
+        .spinner {
+            width:42px;height:42px;border-radius:50%;
+            border:3px solid rgba(79,143,255,0.1);
+            border-top-color:var(--blue);
+            animation:spin 0.9s linear infinite;
+        }
+        .loading-wrap p { color:var(--dim);font-size:0.9rem; }
 
-        #status { text-align: center; color: var(--muted); padding: 40px; }
+        /* ── ERROR ── */
+        .error-wrap {
+            width:100%;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);
+            border-radius:14px;padding:1.5rem;text-align:center;display:none;
+        }
+        .error-wrap .err-icon { font-size:2rem;margin-bottom:0.5rem;display:block; }
+        .error-wrap p { color:#f87171;font-size:0.85rem;line-height:1.5; }
+        .error-wrap small { color:var(--dim);font-size:0.75rem;display:block;margin-top:0.5rem; }
+
+        /* ── EMPTY ── */
+        .empty-wrap {
+            width:100%;padding:2.5rem 1rem;text-align:center;display:none;
+        }
+        .empty-wrap .empty-icon { font-size:2.5rem;margin-bottom:0.5rem;display:block; }
+        .empty-wrap p { color:var(--dim);font-size:0.9rem; }
+
+        /* ── TELEGRAM ── */
+        .tg-btn {
+            display:flex;align-items:center;justify-content:center;gap:0.6rem;
+            width:100%;padding:0.85rem;border-radius:14px;
+            text-decoration:none;font-family:'Tajawal',sans-serif;
+            font-size:0.95rem;font-weight:700;color:var(--blue);
+            background:rgba(79,143,255,0.06);border:1px solid rgba(79,143,255,0.18);
+            transition:all 0.3s;animation:fadeUp 0.6s 0.5s ease both;
+        }
+        .tg-btn:hover { background:rgba(79,143,255,0.12);border-color:rgba(79,143,255,0.4);color:#fff; }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align:center;font-size:0.72rem;color:var(--dim);line-height:1.8;
+            animation:fadeUp 0.6s 0.55s ease both;
+        }
+        .footer a { color:var(--blue);text-decoration:none; }
+
+        /* ── SUCCESS TOAST ── */
+        .toast {
+            position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);
+            background:linear-gradient(135deg,#1a2a1a,#0f1f0f);
+            border:1px solid rgba(34,197,94,0.3);border-radius:12px;
+            padding:0.75rem 1.25rem;display:flex;align-items:center;gap:0.6rem;
+            font-size:0.85rem;font-weight:700;color:var(--green);
+            box-shadow:0 10px 40px rgba(0,0,0,0.5);
+            transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            z-index:100;white-space:nowrap;
+        }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+
+        /* ── KEYFRAMES ── */
+        @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes pulse    { 0%,100%{opacity:1}50%{opacity:.4} }
+        @keyframes hueRotate { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
+        @keyframes spin     { to{transform:rotate(360deg)} }
+
+        @media(max-width:360px){
+            .header-text h1{font-size:1.7rem;}
+            .apps-grid{grid-template-columns:1fr;}
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>IPA SOON</h1>
-    <p>التطبيقات موقعة بشهادة مجانية</p>
-</header>
+<div class="bg-grid"></div>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
 
-<div class="container" id="app-list">
-    <p id="status">جاري تحميل القائمة...</p>
+<div class="wrapper">
+
+    <!-- Badge -->
+    <div class="top-badge">
+        <span class="dot"></span>
+        يتم التحديث تلقائياً
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-wrap">
+            <div class="logo-glow"></div>
+            <div class="logo-ring"></div>
+            <img class="logo-img" src="https://a.top4top.io/p_38337brtb0.jpeg" alt="Hasaany">
+            <div class="logo-tag">✦ TRUSTED STORE</div>
+        </div>
+        <div class="header-text">
+            <h1>Hasaany Store</h1>
+            <p>متجر التطبيقات الاحترافي — تثبيت مباشر وفوري</p>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat">
+            <b id="appCount">—</b>
+            <span>تطبيق متاح</span>
+        </div>
+        <div class="stat">
+            <b>مجاني</b>
+            <span>100% بالكامل</span>
+        </div>
+        <div class="stat">
+            <b>آمن</b>
+            <span>مفحوص ومعتمد</span>
+        </div>
+    </div>
+
+    <!-- Section title + search -->
+    <div class="section-title">
+        <h2>📱 التطبيقات</h2>
+        <div class="line"></div>
+        <div class="count-badge" id="countBadge">جاري التحميل...</div>
+    </div>
+
+    <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="ابحث عن تطبيق..." oninput="filterApps()">
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-wrap" id="loadingWrap">
+        <div class="spinner"></div>
+        <p>جاري تحميل التطبيقات...</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error-wrap" id="errorWrap">
+        <span class="err-icon">⚠️</span>
+        <p>تعذّر تحميل التطبيقات</p>
+        <small id="errorMsg">تحقق من اتصالك بالإنترنت وأعد المحاولة</small>
+    </div>
+
+    <!-- Empty search result -->
+    <div class="empty-wrap" id="emptyWrap">
+        <span class="empty-icon">🔎</span>
+        <p>لا توجد نتائج لـ "<span id="emptyQuery"></span>"</p>
+    </div>
+
+    <!-- Apps Grid -->
+    <div class="apps-grid" id="appsGrid"></div>
+
+    <!-- Telegram -->
+    <a class="tg-btn" href="https://t.me/hasaanyIPA" target="_blank">
+        ✈️ &nbsp; قناة التليجرام — @hasaanyIPA
+    </a>
+
+    <!-- Footer -->
+    <div class="footer">
+        🔐 جميع الملفات مفحوصة وآمنة<br>
+        للدعم: <a href="https://t.me/hasaanyIPA">@hasaanyIPA</a>
+    </div>
 </div>
 
+<!-- Toast -->
+<div class="toast" id="toast">⬇️ &nbsp; بدأ التحميل!</div>
+
 <script>
-    async function loadData() {
-        try {
-            const res = await fetch('apps.json');
-            const data = await res.json();
-            const list = document.getElementById('app-list');
-            document.getElementById('status').remove();
+// ═══════════════════════════════════════════
+//  CONFIG — غيّر هذا الرابط فقط
+// ═══════════════════════════════════════════
+const JSON_URL = 'https://raw.githubusercontent.com/husszzzz/HasaanyPROMAX/main/apps.json';
+const TG_URL   = 'https://t.me/hasaanyIPA';
 
-            data.apps.forEach((app, i) => {
-                const item = document.createElement('div');
-                item.className = 'app-item';
-                
-                // تشفير البيانات لإرسالها لـ API الـ plist
-                const plistParams = `name=${encodeURIComponent(app.name)}&url=${encodeURIComponent(app.downloadURL)}&bid=${encodeURIComponent(app.bundleIdentifier)}&img=${encodeURIComponent(app.image)}`;
-                const plistUrl = `https://${window.location.host}/api/install?${plistParams}`;
-                const itms = `itms-services://?action=download-manifest&url=${encodeURIComponent(plistUrl)}`;
+// ═══════════════════════════════════════════
+let allApps = [];
 
-                item.innerHTML = `
-                    <div class="app-meta">
-                        <img src="${app.image}" class="app-icon">
-                        <div class="app-info"><h3>${app.name}</h3></div>
-                    </div>
-                    <button class="install-btn" onclick="startInstall(this, '${itms}')">
-                        <span>تثبيت</span>
-                    </button>
-                `;
-                list.appendChild(item);
-                setTimeout(() => item.classList.add('show'), i * 100);
-            });
-        } catch (e) {
-            console.error("Error loading apps:", e);
-        }
+async function loadApps() {
+    try {
+        const res = await fetch(JSON_URL + '?t=' + Date.now());
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        allApps = data.apps || [];
+        renderApps(allApps);
+    } catch (e) {
+        showError(e.message);
+    }
+}
+
+function renderApps(apps) {
+    const grid = document.getElementById('appsGrid');
+    const loading = document.getElementById('loadingWrap');
+    const error  = document.getElementById('errorWrap');
+    const empty  = document.getElementById('emptyWrap');
+    const count  = document.getElementById('appCount');
+    const badge  = document.getElementById('countBadge');
+
+    loading.style.display = 'none';
+    error.style.display   = 'none';
+    empty.style.display   = 'none';
+    grid.innerHTML = '';
+
+    if (apps.length === 0 && allApps.length > 0) {
+        // search returned nothing
+        empty.style.display = 'flex';
+        empty.style.flexDirection = 'column';
+        document.getElementById('emptyQuery').textContent = document.getElementById('searchInput').value;
+        badge.textContent = '0 نتائج';
+        count.textContent = allApps.length;
+        return;
     }
 
-    function startInstall(btn, url) {
-        btn.classList.add('loading');
-        btn.querySelector('span').innerText = 'جاري...';
+    count.textContent = allApps.length;
+    badge.textContent = apps.length + ' تطبيق';
 
-        // محاولة تشغيل رابط التثبيت
-        setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = url;
-            link.click();
-        }, 100);
+    apps.forEach((app, i) => {
+        const card = document.createElement('div');
+        card.className = 'app-card';
+        card.style.animationDelay = (i * 0.05) + 's';
+        card.style.animation = 'fadeUp 0.5s ' + (i * 0.05) + 's ease both';
 
-        // التحويل لقناة التليجرام بعد 1.5 ثانية (بعد اكتمال أنميشن الزر)
-        setTimeout(() => {
-            window.location.href = 'https://t.me/ipasoon';
-        }, 1500);
-    }
+        const iconHTML = app.image
+            ? `<img class="app-icon" src="${app.image}" alt="${app.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               <div class="app-icon-placeholder" style="display:none">📦</div>`
+            : `<div class="app-icon-placeholder">📦</div>`;
 
-    loadData();
+        const version = app.version ? `<span class="app-version">v${app.version}</span>` : '';
+
+        card.innerHTML = `
+            <div class="app-top">
+                ${iconHTML}
+                <div class="app-info">
+                    <span class="app-name">${app.name}</span>
+                    <span class="app-bundle">${app.bundleIdentifier || ''}</span>
+                    ${version}
+                </div>
+            </div>
+            <a class="btn-get" href="${app.downloadURL}" onclick="handleInstall(event,'${app.name}','${TG_URL}')">
+                📲 &nbsp; تثبيت
+            </a>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function showError(msg) {
+    document.getElementById('loadingWrap').style.display = 'none';
+    const err = document.getElementById('errorWrap');
+    err.style.display = 'block';
+    document.getElementById('errorMsg').textContent = msg || 'خطأ غير معروف';
+    document.getElementById('countBadge').textContent = 'خطأ';
+}
+
+function filterApps() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (!q) { renderApps(allApps); return; }
+    const filtered = allApps.filter(a =>
+        (a.name || '').toLowerCase().includes(q) ||
+        (a.bundleIdentifier || '').toLowerCase().includes(q)
+    );
+    renderApps(filtered);
+}
+
+function handleInstall(e, name, tg) {
+    showToast('⬇️ جاري تثبيت ' + name);
+    setTimeout(() => window.open(tg, '_blank'), 1000);
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Parallax orbs
+document.addEventListener('mousemove', function(e) {
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    document.querySelector('.orb-1').style.transform = `translate(${x*.4}px,${y*.4}px)`;
+    document.querySelector('.orb-2').style.transform = `translate(${-x*.3}px,${-y*.3}px)`;
+});
+
+loadApps();
 </script>
-
 </body>
 </html>
