@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IPA SOON</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --accent: #0a84ff;
+            --text: #ffffff;
+            --muted: #8b949e;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, system-ui, sans-serif;
+            margin: 0; padding: 0;
+        }
+
+        header { padding: 60px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        header h1 { font-size: 2.8rem; margin: 0; background: linear-gradient(#fff, #8b949e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
+        header p { color: var(--muted); margin-top: 10px; font-size: 1.1rem; }
+
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+
+        .app-item {
+            background: var(--card);
+            border-radius: 35px;
+            padding: 15px 20px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.05);
+            opacity: 0; transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .app-item.show { opacity: 1; transform: translateY(0); }
+
+        .app-meta { display: flex; align-items: center; }
+        .app-icon { width: 60px; height: 60px; border-radius: 15px; margin-left: 15px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .app-info h3 { margin: 0; font-size: 1.25rem; font-weight: 700; text-align: right; }
+
+        .install-btn {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 800;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            min-width: 105px;
+        }
+
+        .install-btn span { position: relative; z-index: 2; }
+
+        .install-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; height: 100%; width: 0%;
+            background: var(--accent);
+            z-index: 1;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .install-btn.loading { color: #fff; pointer-events: none; }
+        .install-btn.loading::after { width: 100%; }
+
+        #status { text-align: center; color: var(--muted); padding: 40px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>IPA SOON</h1>
+    <p>التطبيقات موقعة بشهادة مجانية</p>
+</header>
+
+<div class="container" id="app-list">
+    <p id="status">جاري تحميل القائمة...</p>
+</div>
+
+<script>
+    async function loadData() {
+        try {
+            const res = await fetch('apps.json');
+            const data = await res.json();
+            const list = document.getElementById('app-list');
+            document.getElementById('status').remove();
+
+            data.apps.forEach((app, i) => {
+                const item = document.createElement('div');
+                item.className = 'app-item';
+                
+                // تشفير البيانات لإرسالها لـ API الـ plist
+                const plistParams = `name=${encodeURIComponent(app.name)}&url=${encodeURIComponent(app.downloadURL)}&bid=${encodeURIComponent(app.bundleIdentifier)}&img=${encodeURIComponent(app.image)}`;
+                const plistUrl = `https://${window.location.host}/api/install?${plistParams}`;
+                const itms = `itms-services://?action=download-manifest&url=${encodeURIComponent(plistUrl)}`;
+
+                item.innerHTML = `
+                    <div class="app-meta">
+                        <img src="${app.image}" class="app-icon">
+                        <div class="app-info"><h3>${app.name}</h3></div>
+                    </div>
+                    <button class="install-btn" onclick="startInstall(this, '${itms}')">
+                        <span>تثبيت</span>
+                    </button>
+                `;
+                list.appendChild(item);
+                setTimeout(() => item.classList.add('show'), i * 100);
+            });
+        } catch (e) {
+            console.error("Error loading apps:", e);
+        }
+    }
+
+    function startInstall(btn, url) {
+        btn.classList.add('loading');
+        btn.querySelector('span').innerText = 'جاري...';
+
+        // محاولة تشغيل رابط التثبيت
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.click();
+        }, 100);
+
+        // التحويل لقناة التليجرام بعد 1.5 ثانية (بعد اكتمال أنميشن الزر)
+        setTimeout(() => {
+            window.location.href = 'https://t.me/ipasoon';
+        }, 1500);
+    }
+
+    loadData();
+</script>
+
+</body>
+</html>
