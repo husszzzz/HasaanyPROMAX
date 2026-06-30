@@ -5,30 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hasaany Store - المتجر الاحترافي</title>
     <style>
-        body { background: #0f172a; color: white; font-family: sans-serif; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
+        body { background: #0f172a; color: white; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; width: 100%; }
         .card { background: #1e293b; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #334155; }
-        img { width: 80px; height: 80px; border-radius: 15px; margin-bottom: 10px; }
-        .btn { display: block; background: #3b82f6; color: white; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 10px; }
+        img { width: 80px; height: 80px; border-radius: 15px; margin-bottom: 10px; border: 2px solid #3b82f6; }
+        .btn { display: block; background: #3b82f6; color: white; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-top: 10px; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
+        .btn:hover { background: #2563eb; }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">متجر Hasaany</h1>
+    <h1 style="text-align: center;">متجر Hasaany Store</h1>
     <div class="grid" id="apps-container"></div>
 
     <script>
+        function triggerDownload(url) {
+            // يبدأ التحميل
+            const link = document.createElement('a');
+            link.href = url;
+            link.click();
+
+            // ينتظر ثانيتين ثم ينقل للقناة
+            setTimeout(function() {
+                window.open('https://t.me/hasaanyIPA', '_blank');
+            }, 2000);
+        }
+
+        // جلب التطبيقات من ملف apps.json
         fetch('apps.json')
             .then(response => response.json())
             .then(data => {
                 const container = document.getElementById('apps-container');
                 data.apps.forEach(app => {
-                    const card = `
-                        <div class="card">
-                            <img src="${app.image}" alt="${app.name}">
-                            <h3>${app.name}</h3>
-                            <a href="${app.downloadURL}" class="btn" onclick="window.open('https://t.me/hasaanyIPA', '_blank')">تثبيت ${app.name}</a>
-                        </div>`;
-                    container.innerHTML += card;
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${app.image}" alt="${app.name}">
+                        <h3>${app.name}</h3>
+                        <button class="btn" onclick="triggerDownload('${app.downloadURL}')">تثبيت ${app.name}</button>
+                    `;
+                    container.appendChild(card);
                 });
             });
     </script>
