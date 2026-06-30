@@ -1,130 +1,361 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>hassanyIPA</title>
-    <style>
-        :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --accent: #0a84ff;
-            --text: #ffffff;
-            --muted: #8b949e;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>hassanyIPA — متجر التطبيقات الموقعة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --bg:#08090d;
+        --bg-soft:#0d0f16;
+        --surface:#12141d;
+        --surface-2:#191c28;
+        --line:rgba(255,255,255,0.07);
+        --gold:#cc9b4a;
+        --gold-bright:#e8c27a;
+        --cyan:#4fd1c5;
+        --text:#f3f1ec;
+        --muted:#8a8d99;
+        --danger:#e2574c;
+    }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, system-ui, sans-serif;
-            margin: 0; padding: 0;
-        }
+    html{scroll-behavior:smooth;}
 
-        header { padding: 60px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        header h1 { font-size: 2.8rem; margin: 0; background: linear-gradient(#fff, #8b949e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
-        header p { color: var(--muted); margin-top: 10px; font-size: 1.1rem; }
+    body{
+        background:
+            radial-gradient(900px 500px at 80% -10%, rgba(204,155,74,0.08), transparent 60%),
+            radial-gradient(700px 500px at -10% 10%, rgba(79,209,197,0.06), transparent 55%),
+            var(--bg);
+        color:var(--text);
+        font-family:'Tajawal',-apple-system,system-ui,sans-serif;
+        margin:0;
+        min-height:100vh;
+        -webkit-font-smoothing:antialiased;
+    }
 
-        .container { max-width: 600px; margin: auto; padding: 20px; }
+    .mono{font-family:'JetBrains Mono',monospace;}
 
-        .app-item {
-            background: var(--card);
-            border-radius: 35px;
-            padding: 15px 20px;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
-            opacity: 0; transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+    /* ---------- HERO ---------- */
+    header.hero{
+        position:relative;
+        padding:54px 20px 38px;
+        text-align:center;
+        overflow:hidden;
+        border-bottom:1px solid var(--line);
+    }
 
-        .app-item.show { opacity: 1; transform: translateY(0); }
+    .seal{
+        width:74px;height:74px;
+        margin:0 auto 18px;
+        border-radius:50%;
+        position:relative;
+        display:flex;align-items:center;justify-content:center;
+        background:
+            conic-gradient(from 0deg, var(--gold), var(--gold-bright), var(--gold));
+        box-shadow:0 0 0 1px rgba(204,155,74,0.35), 0 12px 30px -8px rgba(204,155,74,0.45);
+        animation:seal-spin 14s linear infinite;
+    }
+    .seal::before{
+        content:'';
+        position:absolute; inset:6px;
+        border-radius:50%;
+        background:var(--bg-soft);
+    }
+    .seal::after{
+        content:'✓';
+        position:relative; z-index:2;
+        font-family:'JetBrains Mono',monospace;
+        font-weight:600;
+        font-size:1.6rem;
+        color:var(--gold-bright);
+    }
+    @keyframes seal-spin{ to{ transform:rotate(360deg); } }
 
-        .app-meta { display: flex; align-items: center; }
-        .app-icon { width: 60px; height: 60px; border-radius: 15px; margin-left: 15px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .app-info h3 { margin: 0; font-size: 1.25rem; font-weight: 700; text-align: right; }
+    header.hero h1{
+        font-size:2.6rem;
+        margin:0;
+        font-weight:900;
+        letter-spacing:-0.5px;
+        background:linear-gradient(180deg,#ffffff, #b9bcc6);
+        -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
 
-        .install-btn {
-            background: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 25px;
-            font-weight: 800;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            min-width: 105px;
-        }
+    .cert-line{
+        margin-top:12px;
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:6px 16px;
+        border-radius:30px;
+        background:var(--surface);
+        border:1px solid var(--line);
+        color:var(--gold-bright);
+        font-size:0.85rem;
+        font-weight:700;
+    }
+    .cert-line .dot{
+        width:7px;height:7px;border-radius:50%;
+        background:var(--cyan);
+        box-shadow:0 0 8px var(--cyan);
+        animation:pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
 
-        .install-btn span { position: relative; z-index: 2; }
+    .stats-row{
+        display:flex; justify-content:center; gap:28px;
+        margin-top:26px;
+        color:var(--muted); font-size:0.8rem;
+    }
+    .stats-row b{
+        display:block; color:var(--text); font-size:1.15rem; font-weight:900;
+        font-family:'JetBrains Mono',monospace;
+    }
 
-        .install-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; height: 100%; width: 0%;
-            background: var(--accent);
-            z-index: 1;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    /* ---------- SEARCH ---------- */
+    .search-wrap{
+        max-width:600px; margin:22px auto 0; padding:0 20px;
+    }
+    .search-box{
+        display:flex; align-items:center; gap:10px;
+        background:var(--surface);
+        border:1px solid var(--line);
+        border-radius:16px;
+        padding:13px 16px;
+        transition:border-color 0.25s;
+    }
+    .search-box:focus-within{ border-color:rgba(204,155,74,0.55); }
+    .search-box svg{ flex:none; opacity:0.5; }
+    .search-box input{
+        flex:1; background:none; border:none; outline:none;
+        color:var(--text); font-family:'Tajawal',sans-serif; font-size:1rem;
+    }
+    .search-box input::placeholder{ color:var(--muted); }
 
-        .install-btn.loading { color: #fff; pointer-events: none; }
-        .install-btn.loading::after { width: 100%; }
+    /* ---------- LIST ---------- */
+    .container{ max-width:600px; margin:auto; padding:26px 20px 70px; }
 
-        #status { text-align: center; color: var(--muted); padding: 40px; }
-    </style>
+    .section-label{
+        display:flex; align-items:center; gap:10px;
+        color:var(--muted); font-size:0.78rem; font-weight:700;
+        letter-spacing:0.5px; margin:10px 4px 14px;
+    }
+    .section-label::after{ content:''; flex:1; height:1px; background:var(--line); }
+
+    .app-item{
+        background:var(--surface);
+        border-radius:22px;
+        padding:14px 16px;
+        margin-bottom:14px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        border:1px solid var(--line);
+        opacity:0; transform:translateY(16px);
+        transition:opacity 0.5s cubic-bezier(.16,.8,.3,1), transform 0.5s cubic-bezier(.16,.8,.3,1), border-color 0.3s;
+    }
+    .app-item.show{ opacity:1; transform:translateY(0); }
+    .app-item:active{ border-color:rgba(204,155,74,0.4); }
+
+    .app-meta{ display:flex; align-items:center; gap:13px; min-width:0; }
+
+    .icon-wrap{ position:relative; flex:none; width:56px; height:56px; }
+    .app-icon{
+        width:56px; height:56px; border-radius:14px;
+        object-fit:cover;
+        box-shadow:0 6px 16px -4px rgba(0,0,0,0.5);
+        display:block;
+    }
+    .ring{
+        position:absolute; inset:-4px;
+        border-radius:18px;
+        opacity:0;
+        transition:opacity 0.2s;
+        pointer-events:none;
+    }
+    .ring svg{ width:100%; height:100%; transform:rotate(-90deg); }
+    .ring circle{
+        fill:none; stroke:var(--gold-bright); stroke-width:3;
+        stroke-linecap:round;
+        stroke-dasharray:163; stroke-dashoffset:163;
+    }
+    .icon-wrap.installing .ring{ opacity:1; }
+    .icon-wrap.installing .ring circle{
+        transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);
+        stroke-dashoffset:0;
+    }
+    .icon-wrap.done .app-icon{ filter:saturate(1.05); }
+    .icon-wrap.done::after{
+        content:'✓';
+        position:absolute; bottom:-3px; left:-3px;
+        width:20px;height:20px; border-radius:50%;
+        background:var(--gold-bright); color:#1a1306;
+        font-size:0.7rem; font-weight:900;
+        display:flex; align-items:center; justify-content:center;
+        box-shadow:0 0 0 2px var(--surface);
+    }
+
+    .app-info{ min-width:0; }
+    .app-info h3{
+        margin:0 0 3px; font-size:1.08rem; font-weight:700;
+        text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .app-info .bid{
+        margin:0; font-size:0.72rem; color:var(--muted);
+        white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:170px;
+    }
+
+    .install-btn{
+        flex:none;
+        background:var(--gold-bright);
+        color:#1a1306;
+        border:none;
+        padding:10px 22px;
+        border-radius:30px;
+        font-weight:800;
+        font-family:'Tajawal',sans-serif;
+        font-size:0.92rem;
+        cursor:pointer;
+        position:relative;
+        overflow:hidden;
+        min-width:96px;
+        transition:transform 0.15s, box-shadow 0.25s;
+        box-shadow:0 6px 16px -6px rgba(232,194,122,0.55);
+    }
+    .install-btn:active{ transform:scale(0.95); }
+    .install-btn span{ position:relative; z-index:2; }
+    .install-btn.loading{
+        color:#0c1015;
+        background:var(--surface-2);
+        pointer-events:none;
+        box-shadow:none;
+    }
+    .install-btn.loading::after{
+        content:'';
+        position:absolute; inset:0;
+        background:linear-gradient(90deg, var(--cyan), var(--gold-bright));
+        z-index:1;
+        transform-origin:right;
+        animation:fill-btn 1.6s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes fill-btn{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+    .install-btn.loading span{ color:#0c1015; }
+
+    #status, #empty{
+        text-align:center; color:var(--muted); padding:60px 20px; font-size:0.95rem;
+    }
+
+    footer{
+        text-align:center; color:var(--muted); font-size:0.72rem;
+        padding:0 20px 36px; line-height:1.8;
+    }
+    footer a{ color:var(--cyan); text-decoration:none; }
+</style>
 </head>
 <body>
 
-<header>
+<header class="hero">
+    <div class="seal"></div>
     <h1>hassanyIPA</h1>
-    <p>التطبيقات موقعة بشهادة مجانية</p>
+    <div class="cert-line"><span class="dot"></span> التطبيقات موقّعة بشهادة سارية ومجانية</div>
+    <div class="stats-row">
+        <div><b id="stat-count">—</b>تطبيق متاح</div>
+        <div><b>100%</b>توقيع صالح</div>
+        <div><b>مباشر</b>رابط التثبيت</div>
+    </div>
 </header>
 
-<div class="container" id="app-list">
-    <p id="status">جاري تحميل القائمة...</p>
+<div class="search-wrap">
+    <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" placeholder="ابحث عن تطبيق...">
+    </div>
 </div>
 
+<div class="container">
+    <div class="section-label">جميع التطبيقات</div>
+    <div id="app-list">
+        <p id="status">جاري تحميل القائمة...</p>
+    </div>
+    <p id="empty" style="display:none;">لا توجد نتائج مطابقة لبحثك</p>
+</div>
+
+<footer>
+    تثبيت التطبيقات يتطلب الثقة بالمطوّر من إعدادات الجهاز بعد التحميل<br>
+    للدعم والتحديثات تابعونا عبر <a href="https://t.me/hassanyIPA" target="_blank">تيليجرام</a>
+</footer>
+
 <script>
+    let allApps = [];
+
     async function loadData() {
         try {
             const res = await fetch('apps.json');
             const data = await res.json();
-            const list = document.getElementById('app-list');
-            document.getElementById('status').remove();
-
-            data.apps.forEach((app, i) => {
-                const item = document.createElement('div');
-                item.className = 'app-item';
-                
-                // تشفير البيانات لإرسالها لـ API الـ plist
-                const plistParams = `name=${encodeURIComponent(app.name)}&url=${encodeURIComponent(app.downloadURL)}&bid=${encodeURIComponent(app.bundleIdentifier)}&img=${encodeURIComponent(app.image)}`;
-                const plistUrl = `https://${window.location.host}/api/install?${plistParams}`;
-                const itms = `itms-services://?action=download-manifest&url=${encodeURIComponent(plistUrl)}`;
-
-                item.innerHTML = `
-                    <div class="app-meta">
-                        <img src="${app.image}" class="app-icon">
-                        <div class="app-info"><h3>${app.name}</h3></div>
-                    </div>
-                    <button class="install-btn" onclick="startInstall(this, '${itms}')">
-                        <span>تثبيت</span>
-                    </button>
-                `;
-                list.appendChild(item);
-                setTimeout(() => item.classList.add('show'), i * 100);
-            });
+            allApps = data.apps || [];
+            document.getElementById('stat-count').textContent = allApps.length;
+            renderList(allApps);
         } catch (e) {
+            document.getElementById('status').textContent = 'تعذّر تحميل القائمة، حاول لاحقاً';
             console.error("Error loading apps:", e);
         }
     }
 
-    function startInstall(btn, url) {
+    function renderList(apps) {
+        const list = document.getElementById('app-list');
+        const statusEl = document.getElementById('status');
+        const emptyEl = document.getElementById('empty');
+        list.innerHTML = '';
+
+        if (statusEl && statusEl.parentNode) statusEl.remove();
+
+        if (!apps.length) {
+            emptyEl.style.display = 'block';
+            return;
+        }
+        emptyEl.style.display = 'none';
+
+        apps.forEach((app, i) => {
+            const item = document.createElement('div');
+            item.className = 'app-item';
+
+            // تشفير البيانات لإرسالها لـ API الـ plist
+            const plistParams = `name=${encodeURIComponent(app.name)}&url=${encodeURIComponent(app.downloadURL)}&bid=${encodeURIComponent(app.bundleIdentifier)}&img=${encodeURIComponent(app.image)}`;
+            const plistUrl = `https://${window.location.host}/api/install?${plistParams}`;
+            const itms = `itms-services://?action=download-manifest&url=${encodeURIComponent(plistUrl)}`;
+
+            item.innerHTML = `
+                <div class="app-meta">
+                    <div class="icon-wrap" id="icon-${i}">
+                        <img src="${app.image}" class="app-icon" loading="lazy">
+                        <div class="ring">
+                            <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26"/></svg>
+                        </div>
+                    </div>
+                    <div class="app-info">
+                        <h3>${app.name}</h3>
+                        <p class="bid mono">${app.bundleIdentifier || ''}</p>
+                    </div>
+                </div>
+                <button class="install-btn" onclick="startInstall(this, '${itms}', ${i})">
+                    <span>تثبيت</span>
+                </button>
+            `;
+            list.appendChild(item);
+            setTimeout(() => item.classList.add('show'), i * 70);
+        });
+    }
+
+    function startInstall(btn, url, i) {
         btn.classList.add('loading');
         btn.querySelector('span').innerText = 'جاري...';
+        const iconWrap = document.getElementById('icon-' + i);
+        if (iconWrap) iconWrap.classList.add('installing');
 
         // محاولة تشغيل رابط التثبيت
         setTimeout(() => {
@@ -133,11 +364,22 @@
             link.click();
         }, 100);
 
-        // التحويل لقناة التليجرام بعد 1.5 ثانية (بعد اكتمال أنميشن الزر)
+        setTimeout(() => {
+            btn.querySelector('span').innerText = 'تم ✓';
+            if (iconWrap) { iconWrap.classList.remove('installing'); iconWrap.classList.add('done'); }
+        }, 1600);
+
+        // التحويل لقناة التليجرام بعد اكتمال الأنميشن
         setTimeout(() => {
             window.location.href = 'https://t.me/hassanyIPA';
-        }, 1500);
+        }, 2200);
     }
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        const filtered = q ? allApps.filter(a => (a.name || '').toLowerCase().includes(q)) : allApps;
+        renderList(filtered);
+    });
 
     loadData();
 </script>
