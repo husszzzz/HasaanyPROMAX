@@ -3,8 +3,15 @@
     {
       "name": "Hassany Store",
       "bundleIdentifier": "com.hassanyIPA",
-      "image": "https://j.top4top.io/p_3833cotze1.jpeg", 
+      "image": "https://j.top4top.io/p_3833cotze1.jpeg",
       "downloadURL": "https://github.com/husszzzz/HasaanyPROMAX/raw/refs/heads/main/hassanyIPA_1.0_1782848953.ipa"
+    },
+    {
+      "name": "hassany12",
+      "bundleIdentifier": "hassany12.com",
+      "image": "https://via.placeholder.com/150",
+      "downloadURL": "https://github.com/husszzzz/HasaanyPROMAX/raw/refs/heads/main/hassany12_1.0_1782904557.ipa",
+      "hidden": false
     }
   ]
 }
