@@ -6,30 +6,36 @@
 <title>hassanyIPA — متجر التطبيقات الموقعة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
     :root{
-        --bg:#08090d;
-        --bg-soft:#0d0f16;
-        --surface:#12141d;
-        --surface-2:#191c28;
-        --line:rgba(255,255,255,0.07);
-        --gold:#cc9b4a;
-        --gold-bright:#e8c27a;
-        --cyan:#4fd1c5;
-        --text:#f3f1ec;
-        --muted:#8a8d99;
+        --bg:#07080b;
+        --bg-soft:#0c0e14;
+        --surface:#12141b;
+        --surface-2:#191d27;
+        --line:rgba(255,255,255,0.06);
+        --line-gold:rgba(204,155,74,0.28);
+        --gold:#c89a52;
+        --gold-bright:#f3cd85;
+        --gold-dim:#8a6a34;
+        --cyan:#49d6c8;
+        --text:#f5f2ea;
+        --muted:#8d909d;
         --danger:#e2574c;
     }
 
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-
     html{scroll-behavior:smooth;}
+
+    @media (prefers-reduced-motion: reduce){
+        *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+    }
 
     body{
         background:
-            radial-gradient(900px 500px at 80% -10%, rgba(204,155,74,0.08), transparent 60%),
-            radial-gradient(700px 500px at -10% 10%, rgba(79,209,197,0.06), transparent 55%),
+            radial-gradient(1000px 560px at 82% -8%, rgba(204,155,74,0.10), transparent 60%),
+            radial-gradient(760px 520px at -8% 6%, rgba(73,214,200,0.05), transparent 55%),
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px),
             var(--bg);
         color:var(--text);
         font-family:'Tajawal',-apple-system,system-ui,sans-serif;
@@ -39,61 +45,76 @@
     }
 
     .mono{font-family:'JetBrains Mono',monospace;}
+    .amiri{font-family:'Amiri',serif;}
 
     /* ---------- HERO ---------- */
     header.hero{
         position:relative;
-        padding:54px 20px 38px;
+        padding:60px 20px 40px;
         text-align:center;
         overflow:hidden;
         border-bottom:1px solid var(--line);
+        background:linear-gradient(180deg, rgba(204,155,74,0.05), transparent 70%);
     }
 
     .seal{
-        width:74px;height:74px;
-        margin:0 auto 18px;
+        width:96px;height:96px;
+        margin:0 auto 20px;
         border-radius:50%;
         position:relative;
         display:flex;align-items:center;justify-content:center;
-        background:
-            conic-gradient(from 0deg, var(--gold), var(--gold-bright), var(--gold));
-        box-shadow:0 0 0 1px rgba(204,155,74,0.35), 0 12px 30px -8px rgba(204,155,74,0.45);
-        animation:seal-spin 14s linear infinite;
     }
-    .seal::before{
-        content:'';
-        position:absolute; inset:6px;
-        border-radius:50%;
-        background:var(--bg-soft);
+    .seal .ring-outer,.seal .ring-inner{
+        position:absolute; inset:0; border-radius:50%;
     }
-    .seal::after{
-        content:'✓';
+    .seal .ring-outer{
+        background:conic-gradient(from 0deg, var(--gold-dim), var(--gold-bright) 25%, var(--gold-dim) 50%, var(--gold-bright) 75%, var(--gold-dim));
+        animation:seal-spin 16s linear infinite;
+        box-shadow:0 0 0 1px rgba(204,155,74,0.35), 0 16px 40px -10px rgba(204,155,74,0.5);
+    }
+    .seal .ring-inner{
+        inset:9px;
+        background:conic-gradient(from 90deg, transparent, var(--cyan), transparent 40%);
+        opacity:0.55;
+        animation:seal-spin 10s linear infinite reverse;
+    }
+    .seal .seal-core{
         position:relative; z-index:2;
+        width:64px;height:64px;
+        border-radius:50%;
+        background:radial-gradient(circle at 35% 30%, #1a1610, var(--bg-soft) 70%);
+        display:flex;align-items:center;justify-content:center;
+        box-shadow:inset 0 0 0 1px rgba(243,205,133,0.25);
+    }
+    .seal .seal-core::after{
+        content:'✓';
         font-family:'JetBrains Mono',monospace;
         font-weight:600;
         font-size:1.6rem;
         color:var(--gold-bright);
+        text-shadow:0 0 14px rgba(243,205,133,0.5);
     }
     @keyframes seal-spin{ to{ transform:rotate(360deg); } }
 
     header.hero h1{
-        font-size:2.6rem;
+        font-family:'Amiri',serif;
+        font-size:2.9rem;
         margin:0;
-        font-weight:900;
-        letter-spacing:-0.5px;
+        font-weight:700;
+        letter-spacing:0.5px;
         background:linear-gradient(180deg,#ffffff, #b9bcc6);
         -webkit-background-clip:text; -webkit-text-fill-color:transparent;
     }
 
     .cert-line{
-        margin-top:12px;
+        margin-top:14px;
         display:inline-flex;
         align-items:center;
-        gap:8px;
-        padding:6px 16px;
+        gap:9px;
+        padding:7px 18px;
         border-radius:30px;
         background:var(--surface);
-        border:1px solid var(--line);
+        border:1px solid var(--line-gold);
         color:var(--gold-bright);
         font-size:0.85rem;
         font-weight:700;
@@ -107,28 +128,28 @@
     @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
 
     .stats-row{
-        display:flex; justify-content:center; gap:28px;
-        margin-top:26px;
+        display:flex; justify-content:center; gap:32px;
+        margin-top:28px;
         color:var(--muted); font-size:0.8rem;
     }
     .stats-row b{
-        display:block; color:var(--text); font-size:1.15rem; font-weight:900;
+        display:block; color:var(--text); font-size:1.25rem; font-weight:900;
         font-family:'JetBrains Mono',monospace;
     }
 
     /* ---------- SEARCH ---------- */
     .search-wrap{
-        max-width:600px; margin:22px auto 0; padding:0 20px;
+        max-width:640px; margin:24px auto 0; padding:0 20px;
     }
     .search-box{
         display:flex; align-items:center; gap:10px;
         background:var(--surface);
         border:1px solid var(--line);
         border-radius:16px;
-        padding:13px 16px;
-        transition:border-color 0.25s;
+        padding:14px 18px;
+        transition:border-color 0.25s, box-shadow 0.25s;
     }
-    .search-box:focus-within{ border-color:rgba(204,155,74,0.55); }
+    .search-box:focus-within{ border-color:var(--line-gold); box-shadow:0 0 0 3px rgba(204,155,74,0.08); }
     .search-box svg{ flex:none; opacity:0.5; }
     .search-box input{
         flex:1; background:none; border:none; outline:none;
@@ -137,43 +158,76 @@
     .search-box input::placeholder{ color:var(--muted); }
 
     /* ---------- LIST ---------- */
-    .container{ max-width:600px; margin:auto; padding:26px 20px 70px; }
+    .container{ max-width:640px; margin:auto; padding:30px 20px 80px; }
 
     .section-label{
         display:flex; align-items:center; gap:10px;
         color:var(--muted); font-size:0.78rem; font-weight:700;
-        letter-spacing:0.5px; margin:10px 4px 14px;
+        letter-spacing:0.5px; margin:10px 4px 18px;
     }
     .section-label::after{ content:''; flex:1; height:1px; background:var(--line); }
 
     .app-item{
-        background:var(--surface);
-        border-radius:22px;
-        padding:14px 16px;
-        margin-bottom:14px;
+        position:relative;
+        background:linear-gradient(160deg, var(--surface), var(--surface-2));
+        border-radius:28px;
+        padding:20px 22px;
+        margin-bottom:18px;
         display:flex;
         align-items:center;
         justify-content:space-between;
-        gap:12px;
+        gap:16px;
         border:1px solid var(--line);
-        opacity:0; transform:translateY(16px);
-        transition:opacity 0.5s cubic-bezier(.16,.8,.3,1), transform 0.5s cubic-bezier(.16,.8,.3,1), border-color 0.3s;
+        overflow:hidden;
+        opacity:0; transform:translateY(20px) scale(0.98);
+        filter:blur(4px);
+        transition:opacity 0.6s cubic-bezier(.16,.8,.3,1), transform 0.6s cubic-bezier(.16,.8,.3,1), filter 0.6s cubic-bezier(.16,.8,.3,1), border-color 0.3s, box-shadow 0.3s;
     }
-    .app-item.show{ opacity:1; transform:translateY(0); }
-    .app-item:active{ border-color:rgba(204,155,74,0.4); }
+    .app-item.show{ opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+    .app-item:active{ border-color:var(--line-gold); }
 
-    .app-meta{ display:flex; align-items:center; gap:13px; min-width:0; }
+    /* ambient holographic foil sweep — signature detail on every card */
+    .app-item::before{
+        content:'';
+        position:absolute; inset:0;
+        background:linear-gradient(115deg, transparent 40%, rgba(243,205,133,0.10) 48%, rgba(73,214,200,0.10) 52%, transparent 60%);
+        background-size:260% 260%;
+        background-position:120% 0%;
+        mix-blend-mode:screen;
+        pointer-events:none;
+        animation:foil-sweep 7s ease-in-out infinite;
+        animation-delay:var(--sweep-delay, 0s);
+    }
+    @keyframes foil-sweep{
+        0%,100%{ background-position:130% -10%; }
+        50%{ background-position:-30% 110%; }
+    }
 
-    .icon-wrap{ position:relative; flex:none; width:56px; height:56px; }
+    .app-item:hover{ border-color:var(--line-gold); box-shadow:0 18px 46px -20px rgba(204,155,74,0.35); }
+
+    .app-meta{ position:relative; z-index:1; display:flex; align-items:center; gap:16px; min-width:0; }
+
+    .index-badge{
+        flex:none;
+        font-family:'JetBrains Mono',monospace;
+        font-size:0.68rem;
+        font-weight:600;
+        color:var(--gold-dim);
+        letter-spacing:0.5px;
+        writing-mode:vertical-rl;
+        opacity:0.7;
+    }
+
+    .icon-wrap{ position:relative; flex:none; width:84px; height:84px; }
     .app-icon{
-        width:56px; height:56px; border-radius:14px;
+        width:84px; height:84px; border-radius:20px;
         object-fit:cover;
-        box-shadow:0 6px 16px -4px rgba(0,0,0,0.5);
+        box-shadow:0 10px 24px -6px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.06);
         display:block;
     }
     .ring{
-        position:absolute; inset:-4px;
-        border-radius:18px;
+        position:absolute; inset:-5px;
+        border-radius:25px;
         opacity:0;
         transition:opacity 0.2s;
         pointer-events:none;
@@ -182,58 +236,64 @@
     .ring circle{
         fill:none; stroke:var(--gold-bright); stroke-width:3;
         stroke-linecap:round;
-        stroke-dasharray:163; stroke-dashoffset:163;
+        stroke-dasharray:263; stroke-dashoffset:263;
     }
     .icon-wrap.installing .ring{ opacity:1; }
     .icon-wrap.installing .ring circle{
         transition:stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1);
         stroke-dashoffset:0;
     }
-    .icon-wrap.done .app-icon{ filter:saturate(1.05); }
+    .icon-wrap.done .app-icon{ filter:saturate(1.08); box-shadow:0 10px 26px -6px rgba(243,205,133,0.35), inset 0 0 0 1px rgba(255,255,255,0.08); }
     .icon-wrap.done::after{
         content:'✓';
-        position:absolute; bottom:-3px; left:-3px;
-        width:20px;height:20px; border-radius:50%;
+        position:absolute; bottom:-4px; left:-4px;
+        width:24px;height:24px; border-radius:50%;
         background:var(--gold-bright); color:#1a1306;
-        font-size:0.7rem; font-weight:900;
+        font-size:0.78rem; font-weight:900;
         display:flex; align-items:center; justify-content:center;
-        box-shadow:0 0 0 2px var(--surface);
+        box-shadow:0 0 0 3px var(--surface), 0 0 14px rgba(243,205,133,0.6);
     }
 
     .app-info{ min-width:0; }
     .app-info h3{
-        margin:0 0 3px; font-size:1.08rem; font-weight:700;
+        margin:0 0 5px; font-size:1.28rem; font-weight:700;
         text-align:right; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
     .app-info .bid{
-        margin:0; font-size:0.72rem; color:var(--muted);
-        white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:170px;
+        margin:0; font-size:0.74rem; color:var(--muted);
+        white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:190px;
     }
 
     .install-btn{
+        position:relative; z-index:1;
         flex:none;
-        background:var(--gold-bright);
+        background:linear-gradient(135deg, var(--gold-bright), var(--gold));
         color:#1a1306;
         border:none;
-        padding:10px 22px;
+        padding:13px 26px;
         border-radius:30px;
         font-weight:800;
         font-family:'Tajawal',sans-serif;
-        font-size:0.92rem;
+        font-size:0.95rem;
         cursor:pointer;
-        position:relative;
         overflow:hidden;
-        min-width:96px;
+        min-width:108px;
         transition:transform 0.15s, box-shadow 0.25s;
-        box-shadow:0 6px 16px -6px rgba(232,194,122,0.55);
+        box-shadow:0 8px 20px -6px rgba(232,194,122,0.55);
+        animation:btn-breathe 3.4s ease-in-out infinite;
     }
-    .install-btn:active{ transform:scale(0.95); }
+    @keyframes btn-breathe{
+        0%,100%{ box-shadow:0 8px 20px -6px rgba(232,194,122,0.5); }
+        50%{ box-shadow:0 8px 26px -4px rgba(232,194,122,0.75); }
+    }
+    .install-btn:active{ transform:scale(0.94); }
     .install-btn span{ position:relative; z-index:2; }
     .install-btn.loading{
         color:#0c1015;
         background:var(--surface-2);
         pointer-events:none;
         box-shadow:none;
+        animation:none;
     }
     .install-btn.loading::after{
         content:'';
@@ -247,20 +307,30 @@
     .install-btn.loading span{ color:#0c1015; }
 
     #status, #empty{
-        text-align:center; color:var(--muted); padding:60px 20px; font-size:0.95rem;
+        text-align:center; color:var(--muted); padding:70px 20px; font-size:0.95rem;
     }
 
     footer{
-        text-align:center; color:var(--muted); font-size:0.72rem;
-        padding:0 20px 36px; line-height:1.8;
+        text-align:center; color:var(--muted); font-size:0.74rem;
+        padding:0 20px 40px; line-height:1.9;
     }
     footer a{ color:var(--cyan); text-decoration:none; }
+
+    @media (max-width:380px){
+        .app-info h3{ font-size:1.12rem; }
+        .icon-wrap, .app-icon{ width:72px; height:72px; }
+        .install-btn{ padding:12px 18px; min-width:92px; font-size:0.88rem; }
+    }
 </style>
 </head>
 <body>
 
 <header class="hero">
-    <div class="seal"></div>
+    <div class="seal">
+        <div class="ring-outer"></div>
+        <div class="ring-inner"></div>
+        <div class="seal-core"></div>
+    </div>
     <h1>hassanyIPA</h1>
     <div class="cert-line"><span class="dot"></span> التطبيقات موقّعة بشهادة سارية ومجانية</div>
     <div class="stats-row">
@@ -323,18 +393,22 @@
         apps.forEach((app, i) => {
             const item = document.createElement('div');
             item.className = 'app-item';
+            item.style.setProperty('--sweep-delay', (i * 0.6) + 's');
 
             // تشفير البيانات لإرسالها لـ API الـ plist
             const plistParams = `name=${encodeURIComponent(app.name)}&url=${encodeURIComponent(app.downloadURL)}&bid=${encodeURIComponent(app.bundleIdentifier)}&img=${encodeURIComponent(app.image)}`;
             const plistUrl = `https://${window.location.host}/api/install?${plistParams}`;
             const itms = `itms-services://?action=download-manifest&url=${encodeURIComponent(plistUrl)}`;
 
+            const num = String(i + 1).padStart(2, '0');
+
             item.innerHTML = `
                 <div class="app-meta">
+                    <div class="index-badge mono">N°${num}</div>
                     <div class="icon-wrap" id="icon-${i}">
                         <img src="${app.image}" class="app-icon" loading="lazy">
                         <div class="ring">
-                            <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26"/></svg>
+                            <svg viewBox="0 0 94 94"><circle cx="47" cy="47" r="42"/></svg>
                         </div>
                     </div>
                     <div class="app-info">
@@ -347,7 +421,7 @@
                 </button>
             `;
             list.appendChild(item);
-            setTimeout(() => item.classList.add('show'), i * 70);
+            setTimeout(() => item.classList.add('show'), i * 90);
         });
     }
 
